@@ -511,11 +511,11 @@ gethostbyname(const char *name)
 struct hostent *
 gethostbyname2(const char *name, int af)
 {
-	return android_gethostbynameforiface(name, af, NULL);
+	return android_gethostbynameforiface(name, af, NULL, 0);
 }
 
 struct hostent *
-android_gethostbynameforiface(const char *name, int af, const char *iface)
+android_gethostbynameforiface(const char *name, int af, const char *iface, int mark)
 {
 	struct hostent *hp;
 	res_state res = __res_get_state();
@@ -865,21 +865,21 @@ android_gethostbyaddrforiface_real(const void *addr,
 }
 
 struct hostent *
-android_gethostbyaddrforiface(const void *addr, socklen_t len, int af, const char* iface)
+android_gethostbyaddrforiface(const void *addr, socklen_t len, int af, const char* iface, int mark)
 {
 	const char *cache_mode = getenv("ANDROID_DNS_MODE");
 
 	if (cache_mode == NULL || strcmp(cache_mode, "local") != 0) {
 		return android_gethostbyaddrforiface_proxy(addr, len, af, iface);
 	} else {
-		return android_gethostbyaddrforiface_real(addr,len, af,iface);
+		return android_gethostbyaddrforiface_real(addr,len, af, iface);
 	}
 }
 
 struct hostent *
 __gethostbyaddr(const void *addr, socklen_t len, int af)
 {
-	return android_gethostbyaddrforiface(addr, len, af, NULL);
+	return android_gethostbyaddrforiface(addr, len, af, NULL, 0);
 }
 
 

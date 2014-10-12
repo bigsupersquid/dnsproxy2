@@ -40,13 +40,19 @@ LOCAL_SRC_FILES	:= dnsproxy2.cpp \
 	nameser/ns_samedomain.c \
 	nameser/ns_ttl.c
 
-LOCAL_CFLAGS	:= -DHAVE_SYS_UIO_H \
-	-DANDROID_SMP=1 \
+LOCAL_CFLAGS := -Os -marm -march=armv6k -mcpu=arm1176jzf-s -mtune=arm1176jzf-s -mfloat-abi=softfp -mfpu=vfp \
+	-DHAVE_SYS_UIO_H \
+	-DANDROID_SMP=0 \
 	-DANDROID_CHANGES \
 	-D_LIBC \
 	-I$(LOCAL_PATH) \
 	-I$(LOCAL_PATH)/resolv \
 	-I$(LOCAL_PATH)/private \
 	-include netdb-private.h
+	
+LOCAL_LDLIBS := -L$(LOCAL_PATH)/lib -llog -g
+
+LOCAL_C_INCLUDES := bionic
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/include
 
 include $(BUILD_EXECUTABLE)

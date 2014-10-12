@@ -108,10 +108,10 @@ static int getnameinfo_local(const struct sockaddr *, socklen_t, char *,
  */
 int getnameinfo(const struct sockaddr* sa, socklen_t salen, char* host, size_t hostlen, char* serv, size_t servlen, int flags)
 {
-	return android_getnameinfoforiface(sa, salen, host, hostlen, serv, servlen, flags, NULL);
+	return android_getnameinfoforiface(sa, salen, host, hostlen, serv, servlen, flags, NULL, 0);
 }
 
-int android_getnameinfoforiface(const struct sockaddr* sa, socklen_t salen, char* host, size_t hostlen, char* serv, size_t servlen, int flags, const char* iface)
+int android_getnameinfoforiface(const struct sockaddr* sa, socklen_t salen, char* host, size_t hostlen, char* serv, size_t servlen, int flags, const char* iface, int mark)
 {
 	switch (sa->sa_family) {
 	case AF_INET:
@@ -328,7 +328,7 @@ getnameinfo_inet(const struct sockaddr* sa, socklen_t salen,
 		} else if (!hostnamelen) {
 			hp = NULL;
 		} else {
-			hp = android_gethostbyaddrforiface(addr, afd->a_addrlen, afd->a_af, iface);
+			hp = android_gethostbyaddrforiface(addr, afd->a_addrlen, afd->a_af, iface, 0);
 		}
 
 		if (hp) {

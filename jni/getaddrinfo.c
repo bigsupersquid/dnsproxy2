@@ -577,12 +577,12 @@ int
 getaddrinfo(const char *hostname, const char *servname,
     const struct addrinfo *hints, struct addrinfo **res)
 {
-	return android_getaddrinfoforiface(hostname, servname, hints, NULL, res);
+	return android_getaddrinfoforiface(hostname, servname, hints, NULL, 0, res);
 }
 
 int
 android_getaddrinfoforiface(const char *hostname, const char *servname,
-    const struct addrinfo *hints, const char *iface, struct addrinfo **res)
+    const struct addrinfo *hints, const char *iface, int mark, struct addrinfo **res)
 {
 	struct addrinfo sentinel;
 	struct addrinfo *cur;
